@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trans-Jimaku Gemini Web 隐私政策</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #4b5563;
+      --line: #dbe3ef;
+      --accent: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    h1, h2 {
+      margin: 0 0 16px;
+      line-height: 1.35;
+    }
+
+    h1 {
+      font-size: 28px;
+    }
+
+    h2 {
+      margin-top: 28px;
+      font-size: 20px;
+    }
+
+    p, li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    ul {
+      margin: 10px 0 0;
+      padding-left: 20px;
+    }
+
+    .meta {
+      margin: 8px 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .note {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      background: #eff6ff;
+      color: #1e3a8a;
+      font-size: 14px;
+    }
+
+    .en {
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.95em;
+      color: var(--text);
+    }
+
+    a {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h1>Trans-Jimaku Gemini Web 隐私政策</h1>
+      <div class="meta">最后更新日期：2026-07-18</div>
+
+      <p>
+        本隐私政策适用于浏览器扩展 <strong>Trans-Jimaku Gemini Web</strong>。
+        该扩展的唯一用途，是在用户手动触发采集时，为 Trans-Jimaku 桌面应用采集 Gemini Web 账号接入所需参数，
+        并通过本机回环地址发送给正在同一设备上运行的桌面应用。
+      </p>
+
+      <h2>1. 我们处理哪些数据</h2>
+      <p>当用户手动点击扩展中的采集按钮时，扩展可能会处理以下数据：</p>
+      <ul>
+        <li>已登录 Gemini / Google 账号的邮箱地址</li>
+        <li>与 Gemini Web 账号接入相关的会话认证数据，例如 Google / Gemini 会话 cookies</li>
+        <li>Gemini 页面中的接入参数，例如 <code>at_value</code>、<code>bl_value</code> 以及与账号接入相关的页面参数</li>
+        <li>为完成本地接入流程所需的最小本地状态信息</li>
+      </ul>
+
+      <h2>2. 我们为何处理这些数据</h2>
+      <p>这些数据仅用于以下目的：</p>
+      <ul>
+        <li>识别用户当前浏览器中已登录的 Gemini Web 账号</li>
+        <li>为 Trans-Jimaku 桌面应用建立 Gemini Web 账号接入配置</li>
+        <li>支持桌面应用后续对已接入账号进行轮转、状态检测与模型可用性检测</li>
+      </ul>
+
+      <h2>3. 数据何时会被处理</h2>
+      <p>
+        扩展不会在后台持续扫描用户页面，也不会在未触发操作时自动采集数据。
+        只有当用户明确点击扩展中的采集按钮后，扩展才会开始访问 Gemini 相关页面并执行参数采集。
+      </p>
+
+      <h2>4. 数据会发送到哪里</h2>
+      <p>
+        扩展采集到的数据仅会发送到用户本机运行中的 Trans-Jimaku 桌面应用，
+        使用的地址为本机回环接口，例如 <code>http://127.0.0.1:8765/</code>。
+      </p>
+      <p>
+        扩展本身不会将这些数据发送到开发者控制的远程服务器，也不会用于广告投放、用户画像、跨站跟踪或出售给第三方。
+      </p>
+
+      <h2>5. 数据是否会被保存</h2>
+      <p>
+        扩展仅保存完成接入流程所需的最小本地状态。与账号接入相关的数据可能会被桌面应用保存到本地配置中，
+        以便后续使用 Gemini Web 功能。该部分本地保存行为由 Trans-Jimaku 桌面应用负责。
+      </p>
+
+      <h2>6. 用户如何控制和删除数据</h2>
+      <ul>
+        <li>用户可以随时停止使用本扩展并将其卸载</li>
+        <li>用户可以在 Trans-Jimaku 桌面应用中删除已接入的 Gemini Web 账号</li>
+        <li>用户也可以清除浏览器中的相关登录状态，以阻止扩展再次读取对应会话数据</li>
+      </ul>
+
+      <h2>7. 第三方服务</h2>
+      <p>
+        本扩展运行过程中可能会访问 Gemini 和 Google 相关页面，以完成用户主动发起的账号接入。
+        这些页面及其服务由第三方提供，并受其各自的条款和隐私政策约束。
+      </p>
+
+      <h2>8. 隐私政策更新</h2>
+      <p>
+        如扩展的数据处理方式发生变化，本页面会同步更新。更新后的版本将以本页面标注的最后更新日期为准。
+      </p>
+
+      <h2>9. 联系方式</h2>
+      <p>
+        如对本隐私政策或本扩展的数据处理方式有疑问，请联系：<a href="mailto:l1335575367@gmail.com">l1335575367@gmail.com</a>
+      </p>
+
+      <div class="en">
+        <h2>English Summary</h2>
+        <p>
+          Trans-Jimaku Gemini Web is a browser extension used only to collect Gemini Web account connection parameters
+          for the Trans-Jimaku desktop application after the user manually starts collection.
+        </p>
+        <p>
+          The extension may process signed-in account email, Google / Gemini session cookies, and Gemini page connection parameters.
+          The collected data is sent only to the locally running Trans-Jimaku desktop application through localhost,
+          and is not sent by the extension to the developer's remote servers.
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
