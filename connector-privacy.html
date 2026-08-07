@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trans-Jimaku-Web Connector 隐私政策</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --text: #1f2937;
+      --muted: #4b5563;
+      --line: #dbe3ef;
+      --accent: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    h1, h2 {
+      margin: 0 0 16px;
+      line-height: 1.35;
+    }
+
+    h1 {
+      font-size: 28px;
+    }
+
+    h2 {
+      margin-top: 28px;
+      font-size: 20px;
+    }
+
+    p, li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    ul {
+      margin: 10px 0 0;
+      padding-left: 20px;
+    }
+
+    .meta {
+      margin: 8px 0 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .note {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      background: #eff6ff;
+      color: #1e3a8a;
+      font-size: 14px;
+    }
+
+    .en {
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.95em;
+      color: var(--text);
+    }
+
+    a {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h1>Trans-Jimaku-Web Connector 隐私政策</h1>
+      <div class="meta">最后更新日期：2026-08-07</div>
+
+      <p>
+        本隐私政策适用于浏览器扩展 <strong>Trans-Jimaku-Web Connector</strong>。
+        本扩展是开源桌面应用 Trans-Jimaku-Web 的配套浏览器扩展，作为请求转发代理，
+        使本地应用能够以你在浏览器中已登录的网页会话（Gemini、DLsite）工作。
+        本扩展不向任何第三方收集、传输或分享用户数据；所有数据处理均发生在你自己的设备上。
+      </p>
+
+      <h2>1. 我们处理哪些数据</h2>
+      <p>为提供服务，本扩展会在你本机处理以下数据：</p>
+      <ul>
+        <li>
+          <strong>网站内容</strong>：你在 Gemini / DLsite 中已登录会话的内容——Gemini 的字幕审阅请求与响应
+          （对话与字幕文本）、DLsite 翻译平台的作品/音轨清单与字幕数据。这些内容用于 Trans-Jimaku-Web 的
+          字幕审阅、音频导入与字幕回传功能。
+        </li>
+        <li>
+          <strong>身份验证信息</strong>：一个由你的桌面应用生成的<strong>配对会话令牌</strong>，保存在浏览器本地的
+          <code>chrome.storage.local</code> 中，用于连接你自己运行的本地应用；它由你的本机应用生成，
+          不是你手动输入的密码，且仅存于本机。
+        </li>
+      </ul>
+      <p>
+        本扩展<strong>不读取、不存储、不传输你的 Cookie</strong>（无 cookies 权限）；
+        不收集你的个人身份信息、浏览历史、位置、输入活动或通讯内容。
+      </p>
+
+      <h2>2. 我们为何处理这些数据</h2>
+      <p>这些数据仅用于以下目的：</p>
+      <ul>
+        <li>通过你已登录的 Gemini 会话进行字幕审阅</li>
+        <li>在 DLsite 翻译平台导入音轨素材与回传校对完成的字幕</li>
+        <li>维持扩展与你本机桌面应用之间的安全配对连接</li>
+      </ul>
+
+      <h2>3. 数据会发送到哪里</h2>
+      <p>
+        所有上述数据只在<strong>你自己的设备上</strong>传递：从你的浏览器到你本机运行的 Trans-Jimaku-Web 应用，
+        通过本地连接（<code>127.0.0.1</code> 的 WebSocket/HTTP）进行。
+        数据<strong>不经过公网、不上传至任何服务器、不发送给任何第三方</strong>（包括开发者运营的任何服务器）。
+      </p>
+
+      <h2>4. 数据用途与共享</h2>
+      <ul>
+        <li>数据仅用于扩展所声明与披露的单一用途（本地桥接）。</li>
+        <li>不向第三方共享或出售数据；不用于个性化/再定向广告；不用于信用评估；不转让给数据经纪商。</li>
+        <li>除自动化处理外，开发者不会在用户设备之外读取这些数据。</li>
+      </ul>
+
+      <h2>5. 权限说明</h2>
+      <ul>
+        <li><strong>storage</strong>：在本机保存配对状态（令牌、端口、开关），以便浏览器重启后自动重连。</li>
+        <li><strong>alarms</strong>：定期唤醒 MV3 服务 worker，维持与本地应用的连接。</li>
+        <li><strong>host_permissions</strong>：仅允许访问运行所需的最小主机集合（Gemini、DLsite、本地回环地址），白名单硬编码、不可配置。</li>
+      </ul>
+
+      <h2>6. 用户如何控制和删除数据</h2>
+      <ul>
+        <li>用户可以随时停止使用本扩展并将其卸载</li>
+        <li>用户可以在 Trans-Jimaku-Web 桌面应用中删除已接入的账号或清理本地配置</li>
+        <li>用户可以清除浏览器中的相关登录状态，以停止扩展继续通过对应会话工作</li>
+      </ul>
+
+      <h2>7. 第三方服务</h2>
+      <p>
+        本扩展运行过程中会访问 Gemini 和 DLsite 相关页面，以完成你已登录会话下的请求转发。
+        这些服务由第三方提供，并受其各自的条款和隐私政策约束。
+      </p>
+
+      <h2>8. 隐私政策更新</h2>
+      <p>
+        如扩展的数据处理方式发生变化，本页面会同步更新。更新后的版本将以本页面标注的最后更新日期为准。
+        本政策与 Chrome Web Store 数据安全声明保持一致。
+      </p>
+
+      <h2>9. 联系方式</h2>
+      <p>
+        如对本隐私政策或本扩展的数据处理方式有疑问，请联系：
+        <a href="mailto:l1335575367@gmail.com">l1335575367@gmail.com</a>
+      </p>
+
+      <div class="en">
+        <h2>English Summary</h2>
+        <p>
+          Trans-Jimaku-Web Connector is a companion browser extension for the open-source desktop application
+          Trans-Jimaku-Web. It acts as a local request proxy so the desktop app can work through your signed-in
+          browser sessions: Gemini for subtitle review, and the DLsite translator platform for audio import and
+          subtitle submission.
+        </p>
+        <p>
+          The extension processes the content of your signed-in sessions (Gemini conversation/subtitle text,
+          DLsite work/track/subtitle data) and a locally generated pairing token. All data is transmitted only
+          between your browser and the locally running Trans-Jimaku-Web application over localhost (127.0.0.1),
+          and is never sent to any server or third party. The extension does not read, store, or transmit cookies.
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
