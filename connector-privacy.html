@@ -71,16 +71,6 @@
       font-size: 14px;
     }
 
-    .note {
-      margin-top: 20px;
-      padding: 14px 16px;
-      border: 1px solid #bfdbfe;
-      border-radius: 8px;
-      background: #eff6ff;
-      color: #1e3a8a;
-      font-size: 14px;
-    }
-
     .en {
       margin-top: 36px;
       padding-top: 28px;
@@ -102,11 +92,11 @@
   <div class="wrap">
     <div class="panel">
       <h1>Trans-Jimaku-Web Connector 隐私政策</h1>
-      <div class="meta">最后更新日期：2026-08-07</div>
+      <div class="meta">最后更新日期：2026-10-09</div>
 
       <p>
         本隐私政策适用于浏览器扩展 <strong>Trans-Jimaku-Web Connector</strong>。
-        本扩展是桌面应用 Trans-Jimaku-Web 的配套浏览器扩展，作为请求转发代理，
+        本扩展是桌面应用 Trans-Jimaku-Web 的配套浏览器扩展，作为请求转发与会话维护代理，
         使本地应用能够以你在浏览器中已登录的网页会话（Gemini、DLsite）工作。
         本扩展不向任何第三方收集、传输或分享用户数据；所有数据处理均发生在你自己的设备上。
       </p>
@@ -120,6 +110,12 @@
           字幕审阅、音频导入与字幕回传功能。
         </li>
         <li>
+          <strong>会话有效性标记</strong>：Gemini 页面自身请求中携带的安全验证标记（BotGuard proof/nonce）。
+          自 2026 年 10 月起，Gemini 对请求附带此类标记有强制要求；扩展读取这些标记，使桌面应用发出的
+          审阅请求与浏览器正常流量使用相同的安全标记。标记仅在本机的浏览器与桌面应用之间使用，
+          不发送给 Gemini 与 DLsite 以外的任何一方，也不会在扩展中持久化保存。
+        </li>
+        <li>
           <strong>身份验证信息</strong>：一个由你的桌面应用生成的<strong>配对会话令牌</strong>，保存在浏览器本地的
           <code>chrome.storage.local</code> 中，用于连接你自己运行的本地应用；它由你的本机应用生成，
           不是你手动输入的密码，且仅存于本机。
@@ -127,7 +123,7 @@
       </ul>
       <p>
         本扩展<strong>不读取、不存储、不传输你的 Cookie</strong>（无 cookies 权限）；
-        不收集你的个人身份信息、浏览历史、位置、输入活动或通讯内容。
+        不收集你的个人身份信息、浏览历史、位置或通讯内容。
       </p>
 
       <h2>2. 我们为何处理这些数据</h2>
@@ -136,12 +132,14 @@
         <li>通过你已登录的 Gemini 会话进行字幕审阅</li>
         <li>在 DLsite 翻译平台导入音轨素材与回传校对完成的字幕</li>
         <li>维持扩展与你本机桌面应用之间的安全配对连接</li>
+        <li>维持与 Gemini 的会话一致性（安全标记），使应用的请求不被 Gemini 误判为异常</li>
       </ul>
 
       <h2>3. 数据会发送到哪里</h2>
       <p>
         所有上述数据只在<strong>你自己的设备上</strong>传递：从你的浏览器到你本机运行的 Trans-Jimaku-Web 应用，
-        通过本地连接（<code>127.0.0.1</code> 的 WebSocket/HTTP）进行。
+        通过本地连接（<code>127.0.0.1</code> 的 WebSocket/HTTP）进行；审阅请求本身按其原有用途发往
+        Gemini / DLsite（即你在浏览器中手动使用这些服务时的相同去向）。
         数据<strong>不经过公网、不上传至任何服务器、不发送给任何第三方</strong>（包括开发者运营的任何服务器）。
       </p>
 
@@ -159,26 +157,35 @@
         <li><strong>host_permissions</strong>：仅允许访问运行所需的最小主机集合（Gemini、DLsite、本地回环地址），白名单硬编码、不可配置。</li>
       </ul>
 
-      <h2>6. 用户如何控制和删除数据</h2>
+      <h2>6. 后台标签页与页面脚本说明</h2>
+      <p>
+        为维持与 Gemini 的会话一致性，扩展会向 Gemini 页面注入一段扩展自带的脚本（不加载任何来自网络的代码），
+        用于读取页面自身请求中的安全标记；必要时，扩展仅会在<strong>自己打开的后台 Gemini 标签页</strong>中
+        模拟一次最小输入（内容为「ok」）以刷新标记，产生的临时对话会由桌面应用自动删除。
+        扩展<strong>不会读取或操作你正在浏览的 Gemini 标签页的内容与对话</strong>。
+        后台标签页与 DLsite 平台连接使用的后台标签页机制相同，可随时手动关闭，需要时会再次自动打开。
+      </p>
+
+      <h2>7. 用户如何控制和删除数据</h2>
       <ul>
         <li>用户可以随时停止使用本扩展并将其卸载</li>
         <li>用户可以在 Trans-Jimaku-Web 桌面应用中删除已接入的账号或清理本地配置</li>
         <li>用户可以清除浏览器中的相关登录状态，以停止扩展继续通过对应会话工作</li>
       </ul>
 
-      <h2>7. 第三方服务</h2>
+      <h2>8. 第三方服务</h2>
       <p>
-        本扩展运行过程中会访问 Gemini 和 DLsite 相关页面，以完成你已登录会话下的请求转发。
+        本扩展运行过程中会访问 Gemini 和 DLsite 相关页面，以完成你已登录会话下的请求转发与会话维持。
         这些服务由第三方提供，并受其各自的条款和隐私政策约束。
       </p>
 
-      <h2>8. 隐私政策更新</h2>
+      <h2>9. 隐私政策更新</h2>
       <p>
         如扩展的数据处理方式发生变化，本页面会同步更新。更新后的版本将以本页面标注的最后更新日期为准。
         本政策与 Chrome Web Store 数据安全声明保持一致。
       </p>
 
-      <h2>9. 联系方式</h2>
+      <h2>10. 联系方式</h2>
       <p>
         如对本隐私政策或本扩展的数据处理方式有疑问，请联系：
         <a href="mailto:l1335575367@gmail.com">l1335575367@gmail.com</a>
@@ -194,9 +201,15 @@
         </p>
         <p>
           The extension processes the content of your signed-in sessions (Gemini conversation/subtitle text,
-          DLsite work/track/subtitle data) and a locally generated pairing token. All data is transmitted only
-          between your browser and the locally running Trans-Jimaku-Web application over localhost (127.0.0.1),
-          and is never sent to any server or third party. The extension does not read, store, or transmit cookies.
+          DLsite work/track/subtitle data), the security attestation tokens carried by the Gemini page's own
+          requests (used solely to keep the app's requests consistent with normal browser traffic), and a
+          locally generated pairing token. To keep the session consistent, the extension injects its own bundled
+          script into the Gemini page (no remotely loaded code), and may simulate one minimal input in a
+          background Gemini tab it opened itself; the resulting temporary conversation is deleted automatically
+          by the desktop app. The extension never reads or touches the conversations in Gemini tabs you are
+          browsing. All data is transmitted only between your browser and the locally running Trans-Jimaku-Web
+          application over localhost (127.0.0.1), and is never sent to any server or third party. The extension
+          does not read, store, or transmit cookies.
         </p>
       </div>
     </div>
