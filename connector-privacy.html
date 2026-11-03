@@ -92,13 +92,14 @@
   <div class="wrap">
     <div class="panel">
       <h1>Trans-Jimaku-Web Connector 隐私政策</h1>
-      <div class="meta">最后更新日期：2026-10-09</div>
+      <div class="meta">最后更新日期：2026-11-04</div>
 
       <p>
         本隐私政策适用于浏览器扩展 <strong>Trans-Jimaku-Web Connector</strong>。
         本扩展是桌面应用 Trans-Jimaku-Web 的配套浏览器扩展，作为请求转发与会话维护代理，
         使本地应用能够以你在浏览器中已登录的网页会话（Gemini、DLsite）工作。
-        本扩展不向任何第三方收集、传输或分享用户数据；所有数据处理均发生在你自己的设备上。
+        本扩展不向开发者收集、传输或分享用户数据；除你主动使用的 Gemini / DLsite 服务外，
+        所有数据处理均发生在你自己的设备上。
       </p>
 
       <h2>1. 我们处理哪些数据</h2>
@@ -116,13 +117,20 @@
           不发送给 Gemini 与 DLsite 以外的任何一方，也不会在扩展中持久化保存。
         </li>
         <li>
+          <strong>登录签名</strong>：只在开启渡幕-Web 的「新版网页通道（实验性）」时处理。扩展会读取当前已登录
+          Google 账号的会话 Cookie（<code>SAPISID</code>、<code>__Secure-1PAPISID</code>、
+          <code>__Secure-3PAPISID</code>），在本机计算 Gemini 网页接口要求的签名（SAPISIDHASH），
+          并只把这个签名写入发往 Google 的请求头。Cookie 值与签名不会发送给开发者、不会回传桌面应用、
+          不会被记录或持久化。缺少可用 Cookie 时，扩展会报错，应用改用原有方式继续。
+        </li>
+        <li>
           <strong>身份验证信息</strong>：一个由你的桌面应用生成的<strong>配对会话令牌</strong>，保存在浏览器本地的
           <code>chrome.storage.local</code> 中，用于连接你自己运行的本地应用；它由你的本机应用生成，
           不是你手动输入的密码，且仅存于本机。
         </li>
       </ul>
       <p>
-        本扩展<strong>不读取、不存储、不传输你的 Cookie</strong>（无 cookies 权限）；
+        除上述签名用途外，本扩展<strong>不读取、不存储、不传输你的 Cookie</strong>；
         不收集你的个人身份信息、浏览历史、位置或通讯内容。
       </p>
 
@@ -133,6 +141,7 @@
         <li>在 DLsite 翻译平台导入音轨素材与回传校对完成的字幕</li>
         <li>维持扩展与你本机桌面应用之间的安全配对连接</li>
         <li>维持与 Gemini 的会话一致性（安全标记），使应用的请求不被 Gemini 误判为异常</li>
+        <li>为新版网页通道生成 Gemini 网页接口所需的登录签名</li>
       </ul>
 
       <h2>3. 数据会发送到哪里</h2>
@@ -140,7 +149,8 @@
         所有上述数据只在<strong>你自己的设备上</strong>传递：从你的浏览器到你本机运行的 Trans-Jimaku-Web 应用，
         通过本地连接（<code>127.0.0.1</code> 的 WebSocket/HTTP）进行；审阅请求本身按其原有用途发往
         Gemini / DLsite（即你在浏览器中手动使用这些服务时的相同去向）。
-        数据<strong>不经过公网、不上传至任何服务器、不发送给任何第三方</strong>（包括开发者运营的任何服务器）。
+        浏览器与本机应用之间的桥接数据<strong>不经过公网、不上传至开发者的任何服务器、不发送给任何第三方</strong>；
+        发往 Gemini / DLsite 的请求属于你使用这些服务的正常流量。
       </p>
 
       <h2>4. 数据用途与共享</h2>
@@ -154,7 +164,8 @@
       <ul>
         <li><strong>storage</strong>：在本机保存配对状态（令牌、端口、开关），以便浏览器重启后自动重连。</li>
         <li><strong>alarms</strong>：定期唤醒 MV3 服务 worker，维持与本地应用的连接。</li>
-        <li><strong>host_permissions</strong>：仅允许访问运行所需的最小主机集合（Gemini、DLsite、本地回环地址），白名单硬编码、不可配置。</li>
+        <li><strong>cookies</strong>：仅在开启新版网页通道时读取当前 Google 账号的会话 Cookie，用于在本机生成请求签名；Cookie 值不离开浏览器，也不发送给开发者。</li>
+        <li><strong>host_permissions</strong>：仅允许访问运行所需的最小主机集合（Gemini 页面与接口域名、DLsite、本地回环地址），白名单硬编码、不可配置。Gemini 接口域名指 <code>geminiweb-pa.clients6.google.com</code>。</li>
       </ul>
 
       <h2>6. 后台标签页与页面脚本说明</h2>
@@ -202,14 +213,19 @@
         <p>
           The extension processes the content of your signed-in sessions (Gemini conversation/subtitle text,
           DLsite work/track/subtitle data), the security attestation tokens carried by the Gemini page's own
-          requests (used solely to keep the app's requests consistent with normal browser traffic), and a
-          locally generated pairing token. To keep the session consistent, the extension injects its own bundled
-          script into the Gemini page (no remotely loaded code), and may simulate one minimal input in a
-          background Gemini tab it opened itself; the resulting temporary conversation is deleted automatically
-          by the desktop app. The extension never reads or touches the conversations in Gemini tabs you are
-          browsing. All data is transmitted only between your browser and the locally running Trans-Jimaku-Web
-          application over localhost (127.0.0.1), and is never sent to any server or third party. The extension
-          does not read, store, or transmit cookies.
+          requests (used solely to keep the app's requests consistent with normal browser traffic), a
+          locally generated pairing token, and a request signature computed locally from your Google session
+          cookies (only when the app's experimental new web channel is enabled). To keep the session consistent,
+          the extension injects its own bundled script into the Gemini page (no remotely loaded code), and may
+          simulate one minimal input in a background Gemini tab it opened itself; the resulting temporary
+          conversation is deleted automatically by the desktop app. The extension never reads or touches the
+          conversations in Gemini tabs you are browsing. Data bridged between your browser and the locally
+          running Trans-Jimaku-Web application stays on localhost (127.0.0.1) and is never sent to the
+          developer's servers or any third party; requests to Gemini and DLsite go to those services when you
+          use them. When the new web channel is enabled, the extension reads the signed-in Google account's
+          session cookies (SAPISID and its 1P/3P variants) locally to compute the request signature Gemini's
+          web endpoint requires. Only the derived hash is written into that request's headers; cookie values
+          never leave the browser, are never stored or logged, and are never sent to the developer.
         </p>
       </div>
     </div>
