@@ -92,14 +92,16 @@
   <div class="wrap">
     <div class="panel">
       <h1>Trans-Jimaku-Web Connector 隐私政策</h1>
-      <div class="meta">最后更新日期：2026-11-04</div>
+      <div class="meta">最后更新日期：2026-11-16</div>
 
       <p>
         本隐私政策适用于浏览器扩展 <strong>Trans-Jimaku-Web Connector</strong>。
         本扩展是桌面应用 Trans-Jimaku-Web 的配套浏览器扩展，作为请求转发代理，
-        使本地应用能够以你在浏览器中已登录的网页会话（Gemini、DLsite）工作。
-        本扩展不向开发者收集、传输或分享用户数据；除你主动使用的 Gemini / DLsite 服务外，
-        所有数据处理均发生在你自己的设备上。
+        使本地应用能够以你在浏览器中已登录的网页会话（Gemini、DLsite）工作；
+        当你使用 ElevenLabs 的「免费」转录模式时，它还负责代取一枚一次性人机验证令牌
+        （该用途不涉及你的登录身份，也不读取任何 Cookie）。
+        本扩展不向开发者收集、传输或分享用户数据；除你主动使用的 Gemini / DLsite 服务，
+        以及免费转录所必需的那一次 elevenlabs.io 页面访问外，所有数据处理均发生在你自己的设备上。
       </p>
 
       <h2>1. 我们处理哪些数据</h2>
@@ -122,11 +124,18 @@
           <code>chrome.storage.local</code> 中，用于连接你自己运行的本地应用；它由你的本机应用生成，
           不是你手动输入的密码，且仅存于本机。
         </li>
+        <li>
+          <strong>人机验证令牌</strong>：只在你使用 ElevenLabs「免费」转录模式时处理。扩展会在后台打开一个
+          <code>elevenlabs.io</code> 页面，由该页面内运行的扩展自带脚本完成人机验证，取得一枚<strong>一次性</strong>
+          令牌（约两分钟有效），随即将该标签页关闭，并把这枚令牌交给你的本机应用。这一过程不涉及你的
+          ElevenLabs 账号——免费转录使用的是匿名接口，扩展在该域名下不读取任何 Cookie；
+          令牌不存储、不记录、不上传至任何服务器，也不发送给开发者。
+        </li>
       </ul>
       <p>
         连接握手时，扩展还会把浏览器时区（例如 <code>Asia/Shanghai</code>）告知本地应用，仅用于按
         Gemini 网页请求的格式填写时间字段；不用于定位，也不会发送给开发者。除上述签名用途外，
-        本扩展<strong>不读取、不存储、不传输你的 Cookie</strong>；
+        本扩展<strong>不读取、不存储、不传输你的 Cookie</strong>（包括 <code>elevenlabs.io</code> 域名）；
         不收集你的个人身份信息、浏览历史、位置或通讯内容。
       </p>
 
@@ -137,6 +146,7 @@
         <li>在 DLsite 翻译平台导入音轨素材与回传校对完成的字幕</li>
         <li>维持扩展与你本机桌面应用之间的安全配对连接</li>
         <li>为新版网页通道生成 Gemini 网页接口所需的登录签名</li>
+        <li>在使用 ElevenLabs 免费转录模式时，代取一次性人机验证令牌</li>
       </ul>
 
       <h2>3. 数据会发送到哪里</h2>
@@ -146,11 +156,13 @@
         Gemini / DLsite（即你在浏览器中手动使用这些服务时的相同去向）。
         浏览器与本机应用之间的桥接数据<strong>不经过公网、不上传至开发者的任何服务器、不发送给任何第三方</strong>；
         发往 Gemini / DLsite 的请求属于你使用这些服务的正常流量。
+        免费转录所需的人机验证令牌同样只在本机传递：扩展把它交给你的本机应用，由应用自己调用
+        ElevenLabs 接口——扩展本身没有 <code>api.elevenlabs.io</code> 的访问权限。
       </p>
 
       <h2>4. 数据用途与共享</h2>
       <ul>
-        <li>数据仅用于扩展所声明与披露的单一用途（本地桥接）。</li>
+        <li>数据仅用于扩展所声明与披露的单一用途（本地桥接，以及免费转录所需的一次性验证令牌代取）。</li>
         <li>不向第三方共享或出售数据；不用于个性化/再定向广告；不用于信用评估；不转让给数据经纪商。</li>
         <li>除自动化处理外，开发者不会在用户设备之外读取这些数据。</li>
       </ul>
@@ -159,8 +171,8 @@
       <ul>
         <li><strong>storage</strong>：在本机保存配对状态（令牌、端口、开关），以便浏览器重启后自动重连。</li>
         <li><strong>alarms</strong>：定期唤醒 MV3 服务 worker，维持与本地应用的连接。</li>
-        <li><strong>cookies</strong>：仅在开启新版网页通道时读取当前 Google 账号的会话 Cookie，用于在本机生成请求签名；Cookie 值不离开浏览器，也不发送给开发者。</li>
-        <li><strong>host_permissions</strong>：仅允许访问运行所需的最小主机集合（Gemini 页面与接口域名、DLsite、本地回环地址），白名单硬编码、不可配置。Gemini 接口域名指 <code>geminiweb-pa.clients6.google.com</code>。</li>
+        <li><strong>cookies</strong>：仅在开启新版网页通道时读取当前 Google 账号的会话 Cookie，用于在本机生成请求签名；Cookie 值不离开浏览器，也不发送给开发者。ElevenLabs 免费转录使用匿名接口，扩展在 <code>elevenlabs.io</code> 域名下不读取任何 Cookie。</li>
+        <li><strong>host_permissions</strong>：仅允许访问运行所需的最小主机集合（Gemini 页面与接口域名、DLsite、<code>elevenlabs.io</code>、本地回环地址），共 10 条规则，白名单硬编码、不可配置。Gemini 接口域名指 <code>geminiweb-pa.clients6.google.com</code>；<code>elevenlabs.io</code> 只用于打开取令牌的那个页面，它<strong>不在</strong>请求转发白名单内，扩展不会向它发出任何由桌面应用指定的请求。</li>
       </ul>
 
       <h2>6. 后台 Gemini 页面说明</h2>
@@ -174,27 +186,42 @@
         可随时手动关闭，需要时会再次自动打开。不使用新版网页通道时不会打开它。
       </p>
 
-      <h2>7. 用户如何控制和删除数据</h2>
+      <h2>7. 后台 ElevenLabs 页面说明</h2>
+      <p>
+        当你使用 ElevenLabs「免费」转录模式时，人机验证必须在该服务自己的页面上完成。扩展会在后台打开一个
+        固定的 <code>elevenlabs.io</code> 页面（不切换到前台、不抢焦点），并向其中注入两个本扩展自带的脚本
+        （一个运行在页面主环境、一个运行在隔离环境，都不加载任何来自网络的代码）：它们在页面内渲染一个
+        不可见的验证组件、完成人机验证并取得一次性令牌。令牌取回后标签页<strong>立即关闭</strong>，通常只存在
+        几秒钟。整个过程<strong>不读取页面内容、不读取页面自身的网络请求、不在页面中输入文字、不点击任何按钮</strong>，
+        也不读取 Cookie。超长音频需要分片上传时，每一片会各取一枚令牌，因而会重复这一过程；不使用免费转录
+        模式时，扩展不会打开该页面。
+      </p>
+
+      <h2>8. 用户如何控制和删除数据</h2>
       <ul>
         <li>用户可以随时停止使用本扩展并将其卸载</li>
         <li>用户可以在 Trans-Jimaku-Web 桌面应用中删除已接入的账号或清理本地配置</li>
         <li>用户可以清除浏览器中的相关登录状态，以停止扩展继续通过对应会话工作</li>
         <li>新版网页通道产生的对话会出现在你的 Gemini 会话列表中，可以在 Gemini 网页中查看或手动删除</li>
+        <li>不使用 ElevenLabs 免费转录（改用付费 API Key 或 MAI-Transcribe 2）时，扩展不会打开 <code>elevenlabs.io</code> 页面；免费转录取到的令牌为一次性，用完即失效、不会被保存</li>
       </ul>
 
-      <h2>8. 第三方服务</h2>
+      <h2>9. 第三方服务</h2>
       <p>
-        本扩展运行过程中会访问 Gemini 和 DLsite 相关页面，以完成你已登录会话下的请求转发。
+        本扩展运行过程中会访问 Gemini 和 DLsite 相关页面，以完成你已登录会话下的请求转发；
+        使用免费转录模式时还会访问 ElevenLabs 的页面以取得人机验证令牌（调用该服务接口的是你的本机应用）。
         这些服务由第三方提供，并受其各自的条款和隐私政策约束。
       </p>
 
-      <h2>9. 隐私政策更新</h2>
+      <h2>10. 隐私政策更新</h2>
       <p>
         如扩展的数据处理方式发生变化，本页面会同步更新。更新后的版本将以本页面标注的最后更新日期为准。
         本政策与 Chrome Web Store 数据安全声明保持一致。
+        <br>
+        2026-11-16：补充 ElevenLabs 免费转录的人机验证代取说明（扩展 0.7.0）。
       </p>
 
-      <h2>10. 联系方式</h2>
+      <h2>11. 联系方式</h2>
       <p>
         如对本隐私政策或本扩展的数据处理方式有疑问，请联系：
         <a href="mailto:l1335575367@gmail.com">l1335575367@gmail.com</a>
@@ -225,6 +252,19 @@
           session cookies (SAPISID and its 1P/3P variants) locally to compute the request signature Gemini's
           web endpoint requires. Only the derived hash is written into that request's headers; cookie values
           never leave the browser, are never stored or logged, and are never sent to the developer.
+        </p>
+        <p>
+          Free-tier ElevenLabs transcription needs a single-use hCaptcha token that can only be issued on an
+          ElevenLabs page. When you start a free transcription, the extension opens such a page in a background
+          tab (no focus steal), injects its own two bundled scripts (no remotely loaded code) to render an
+          invisible widget and complete the check, hands the resulting token to the local app, and closes the tab
+          immediately — it normally exists for only a few seconds. It does not read page content or the page's own
+          network requests, does not type or click anything, and reads no cookies on that domain: free-tier
+          transcription uses an anonymous endpoint and no ElevenLabs account is involved. The token is single-use,
+          expires in about two minutes, is never stored or logged, and is never sent to the developer. The
+          extension itself has no access to api.elevenlabs.io — the request is made by the local app. Long audio is
+          uploaded in chunks, one token per chunk, so the page is opened and closed repeatedly; it is never opened
+          unless you use free-tier transcription.
         </p>
       </div>
     </div>
